@@ -13,4 +13,5 @@
 - Add only what the current step needs: no future fields, no protocols,
   no abstractions, no helpers "for later", no TODOs, no commented-out code.
 - If the developer says "I'll write it", review their code instead.
-- Never commit. Never create or edit files outside the current step.
+- Commit only when the developer asks; stage only the current step's files,
+  by path. Never create or edit files outside the current step.
