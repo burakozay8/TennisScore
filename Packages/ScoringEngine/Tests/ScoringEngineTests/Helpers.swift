@@ -15,3 +15,7 @@ extension MatchState {
         return replay(format: format, pointWinners: pointWinners)
     }
 }
+
+func games(_ side: Side, _ count: Int) -> String {
+    String(repeating: side.rawValue, count: 4 * count)
+}

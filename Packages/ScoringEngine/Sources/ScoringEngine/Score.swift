@@ -29,3 +29,9 @@ public struct Score: Sendable {
         }
     }
 }
+
+extension Score {
+    func isWon(by side: Side, target: Int) -> Bool {
+        self[side] >= target && self[side] - self[side.opponent] >= 2
+    }
+}
