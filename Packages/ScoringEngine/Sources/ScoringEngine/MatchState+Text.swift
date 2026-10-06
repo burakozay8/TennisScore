@@ -1,8 +1,18 @@
+//
+//  MatchState+Text.swift
+//  ScoringEngine
+//
+//  Created by BURAKHAN OZAY on 6.10.2026.
+//
+
 extension MatchState {
     private static let callouts = ["0", "15", "30", "40"]
 
     public func pointText(for side: Side) -> String {
         let own = points[side]
+        if case .tiebreak = kind {
+            return String(own)
+        }
         let other = points[side.opponent]
         if own >= 3 && other >= 3 {
             return own > other ? "AD" : "40"

@@ -19,3 +19,9 @@ extension MatchState {
 func games(_ side: Side, _ count: Int) -> String {
     String(repeating: side.rawValue, count: 4 * count)
 }
+
+func tiebreak(_ a: Int, _ b: Int) -> String {
+    let level = String(repeating: "ab", count: min(a, b))
+    let leader = a > b ? "a" : "b"
+    return level + String(repeating: leader, count: abs(a - b))
+}
