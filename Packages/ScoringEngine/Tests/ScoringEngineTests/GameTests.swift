@@ -47,4 +47,15 @@ struct GameTests {
         #expect(won.games[.a] == 1)
         #expect(won.points[.a] == 0)
     }
+
+    @Test(arguments: [
+        ("", "0", "0"), ("a", "15", "0"), ("aa", "30", "0"), ("aaa", "40", "0"),
+        ("aaabbb", "40", "40"), ("aaabbba", "AD", "40"), ("aaabbbab", "40", "40"),
+        ("aaabbbb", "40", "AD"),
+    ])
+    func pointText(sequence: String, a: String, b: String) {
+        let state = MatchState.played(sequence)
+        #expect(state.pointText(for: .a) == a)
+        #expect(state.pointText(for: .b) == b)
+    }
 }

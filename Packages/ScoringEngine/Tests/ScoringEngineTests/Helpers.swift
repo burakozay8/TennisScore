@@ -11,7 +11,7 @@ extension MatchState {
     static func played(_ sequence: String,
                        _ format: MatchFormat = .bestOf3) -> MatchState
     {
-        let points = sequence.compactMap { Side(rawValue: String($0)) }
-        return replay(format: format, points: points)
+        let pointWinners = sequence.compactMap { Side(rawValue: String($0)) }
+        return replay(format: format, pointWinners: pointWinners)
     }
 }

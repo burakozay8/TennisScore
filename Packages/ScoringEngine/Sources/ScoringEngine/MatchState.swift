@@ -21,9 +21,9 @@ public struct MatchState: Sendable {
         points = Score()
     }
 
-    public static func replay(format: MatchFormat, points: [Side]) -> MatchState {
+    public static func replay(format: MatchFormat, pointWinners: [Side]) -> MatchState {
         var state = MatchState(format: format)
-        for side in points {
+        for side in pointWinners {
             state.pointWon(by: side)
         }
         return state
