@@ -25,3 +25,7 @@ func tiebreak(_ a: Int, _ b: Int) -> String {
     let leader = a > b ? "a" : "b"
     return level + String(repeating: leader, count: abs(a - b))
 }
+
+func sets(_ side: Side, _ count: Int) -> String {
+    String(repeating: games(side, 6), count: count)
+}

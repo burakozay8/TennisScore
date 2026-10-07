@@ -11,6 +11,7 @@ public struct MatchState: Sendable {
     public private(set) var points = Score()
     public private(set) var sets: [SetScore] = []
     public private(set) var kind: GameKind = .regular
+    public private(set) var winner: Side?   // nil while the match is in progress
 
     public init(format: MatchFormat) {
         self.format = format
@@ -26,6 +27,7 @@ public struct MatchState: Sendable {
     }
 
     public mutating func pointWon(by side: Side) {
+        guard winner == nil else { return }
         points[side] += 1
         guard points.isWon(by: side, target: pointsToWinGame) else { return }
         let tiebreakScore: Score? = if case .tiebreak = kind { points } else { nil }
@@ -35,6 +37,10 @@ public struct MatchState: Sendable {
         if tiebreakScore != nil || games.isWon(by: side, target: format.gamesPerSet) {
             sets.append(SetScore(games: games, tiebreak: tiebreakScore))
             games = Score()
+            let setsWonBySide = sets.count(where: { $0.winner == side })
+            if setsWonBySide == format.setsToWin {
+                winner = side
+            }
             return
         }
         if games[side] == format.gamesPerSet && games[side.opponent] == format.gamesPerSet && format.tiebreakInSets {
