@@ -16,6 +16,8 @@ extension MatchState {
     }
 }
 
+let sixAll = games(.a, 5) + games(.b, 5) + games(.a, 1) + games(.b, 1)
+
 func games(_ side: Side, _ count: Int) -> String {
     String(repeating: side.rawValue, count: 4 * count)
 }

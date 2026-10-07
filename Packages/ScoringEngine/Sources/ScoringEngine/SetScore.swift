@@ -12,4 +12,8 @@ public struct SetScore: Sendable {
     public var winner: Side {
         games[.a] > games[.b] ? .a : .b
     }
+
+    public var isMatchTiebreak: Bool {
+        tiebreak != nil && games[.a] + games[.b] == 1
+    }
 }

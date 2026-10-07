@@ -26,6 +26,14 @@ public struct MatchState: Sendable {
         }
     }
 
+    private var isDecidingSet: Bool {
+        setsWon(by: .a) == format.setsToWin - 1 && setsWon(by: .b) == format.setsToWin - 1
+    }
+
+    private func setsWon(by side: Side) -> Int {
+        sets.count(where: { $0.winner == side })
+    }
+
     public mutating func pointWon(by side: Side) {
         guard winner == nil else { return }
         points[side] += 1
@@ -37,14 +45,22 @@ public struct MatchState: Sendable {
         if tiebreakScore != nil || games.isWon(by: side, target: format.gamesPerSet) {
             sets.append(SetScore(games: games, tiebreak: tiebreakScore))
             games = Score()
-            let setsWonBySide = sets.count(where: { $0.winner == side })
+            let setsWonBySide = setsWon(by: side)
             if setsWonBySide == format.setsToWin {
                 winner = side
+                return
+            }
+            if isDecidingSet && format.finalSet == .matchTiebreak {
+                kind = .tiebreak(target: 10)
             }
             return
         }
-        if games[side] == format.gamesPerSet && games[side.opponent] == format.gamesPerSet && format.tiebreakInSets {
-            kind = .tiebreak(target: 7)
+        if games[side] == format.gamesPerSet && games[side.opponent] == format.gamesPerSet {
+            if isDecidingSet && format.finalSet == .finalSetTiebreak {
+                kind = .tiebreak(target: 10)
+            } else if format.tiebreakInSets {
+                kind = .tiebreak(target: 7)
+            }
         }
     }
 

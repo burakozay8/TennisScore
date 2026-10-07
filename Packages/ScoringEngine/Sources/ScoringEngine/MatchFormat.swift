@@ -8,7 +8,8 @@
 public struct MatchFormat: Sendable {
     public enum FinalSet: Sendable {
         case regular
-        case superTiebreak
+        case finalSetTiebreak
+        case matchTiebreak
     }
 
     public var setsToWin: Int
