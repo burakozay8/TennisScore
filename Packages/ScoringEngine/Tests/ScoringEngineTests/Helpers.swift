@@ -9,10 +9,11 @@ import ScoringEngine
 
 extension MatchState {
     static func played(_ sequence: String,
-                       _ format: MatchFormat = .bestOf3) -> MatchState
+                       _ format: MatchFormat = .bestOf3,
+                       firstServer: Side = .a) -> MatchState
     {
         let pointWinners = sequence.compactMap { Side(rawValue: String($0)) }
-        return replay(format: format, pointWinners: pointWinners)
+        return replay(format: format, firstServer: firstServer, pointWinners: pointWinners)
     }
 }
 

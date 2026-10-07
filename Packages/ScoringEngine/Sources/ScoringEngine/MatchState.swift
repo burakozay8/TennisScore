@@ -7,14 +7,23 @@
 
 public struct MatchState: Sendable {
     public let format: MatchFormat
+    public let firstServer: Side
     public private(set) var games = Score()
     public private(set) var points = Score()
     public private(set) var sets: [SetScore] = []
     public private(set) var kind: GameKind = .regular
     public private(set) var winner: Side?   // nil while the match is in progress
 
-    public init(format: MatchFormat) {
+    public init(format: MatchFormat, firstServer: Side) {
         self.format = format
+        self.firstServer = firstServer
+    }
+
+    public var server: Side {
+        let gameOpener = gamesPlayed % 2 == 0 ? firstServer : firstServer.opponent
+        guard case .tiebreak = kind else { return gameOpener }
+        let tiebreakPointsPlayed = points[.a] + points[.b]
+        return (tiebreakPointsPlayed + 1) / 2 % 2 == 0 ? gameOpener : gameOpener.opponent
     }
 
     private var pointsToWinGame: Int {
@@ -28,6 +37,10 @@ public struct MatchState: Sendable {
 
     private var isDecidingSet: Bool {
         setsWon(by: .a) == format.setsToWin - 1 && setsWon(by: .b) == format.setsToWin - 1
+    }
+
+    private var gamesPlayed: Int {
+        sets.reduce(0) { $0 + ($1.games[.a] + $1.games[.b]) } + games[.a] + games[.b]
     }
 
     private func setsWon(by side: Side) -> Int {
@@ -64,8 +77,8 @@ public struct MatchState: Sendable {
         }
     }
 
-    public static func replay(format: MatchFormat, pointWinners: [Side]) -> MatchState {
-        var state = MatchState(format: format)
+    public static func replay(format: MatchFormat, firstServer: Side, pointWinners: [Side]) -> MatchState {
+        var state = MatchState(format: format, firstServer: firstServer)
         for side in pointWinners {
             state.pointWon(by: side)
         }
