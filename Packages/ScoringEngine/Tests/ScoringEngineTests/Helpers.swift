@@ -15,6 +15,12 @@ extension MatchState {
         let pointWinners = sequence.compactMap { Side(rawValue: String($0)) }
         return replay(format: format, firstServer: firstServer, pointWinners: pointWinners)
     }
+
+    static func undoingLast(_ sequence: String,
+                            _ format: MatchFormat = .bestOf3) -> MatchState
+    {
+        played(String(sequence.dropLast()), format)
+    }
 }
 
 let sixAll = games(.a, 5) + games(.b, 5) + games(.a, 1) + games(.b, 1)

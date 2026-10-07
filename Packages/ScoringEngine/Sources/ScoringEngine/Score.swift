@@ -5,7 +5,7 @@
 //  Created by BURAKHAN OZAY on 5.10.2026.
 //
 
-public struct Score: Sendable {
+public struct Score: Sendable, Hashable {
     public var a: Int
     public var b: Int
 

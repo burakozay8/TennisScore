@@ -5,7 +5,7 @@
 //  Created by BURAKHAN OZAY on 6.10.2026.
 //
 
-public enum GameKind: Sendable, Equatable {
+public enum GameKind: Sendable, Hashable {
     case regular                 // a normal game: 0, 15, 30, 40
     case tiebreak(target: Int)   // a tiebreak: first to `target` points, win by 2
 }

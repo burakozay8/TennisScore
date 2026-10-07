@@ -5,7 +5,7 @@
 //  Created by BURAKHAN OZAY on 5.10.2026.
 //
 
-public struct MatchState: Sendable {
+public struct MatchState: Sendable, Hashable {
     public let format: MatchFormat
     public let firstServer: Side
     public private(set) var games = Score()
