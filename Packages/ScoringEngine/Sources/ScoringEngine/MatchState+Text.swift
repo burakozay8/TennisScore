@@ -19,4 +19,21 @@ extension MatchState {
         }
         return Self.callouts[own]
     }
+
+    public func summary(from side: Side) -> String {
+        sets.map { $0.text(from: side) }.joined(separator: " ")
+    }
+}
+
+extension SetScore {
+    func text(from side: Side) -> String {
+        let setScore = "\(games[side])-\(games[side.opponent])"
+        if let tiebreak {
+            if isMatchTiebreak {
+                return "[\(tiebreak[side])-\(tiebreak[side.opponent])]"
+            }
+            return "\(setScore)(\(min(tiebreak[.a], tiebreak[.b])))"
+        }
+        return setScore
+    }
 }
