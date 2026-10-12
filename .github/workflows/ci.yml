@@ -18,17 +18,17 @@ jobs:
       - name: Run engine tests
         run: swift test --package-path Packages/ScoringEngine
 
-  app-build:
-    name: iOS app build
+  app-tests:
+    name: iOS app tests
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_26.3.app
-      - name: Build app
+      - name: Build and test app
         run: >
-          xcodebuild build
+          xcodebuild test
           -project TennisScore.xcodeproj
           -scheme TennisScore
-          -destination 'generic/platform=iOS Simulator'
+          -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2'
           CODE_SIGNING_ALLOWED=NO
