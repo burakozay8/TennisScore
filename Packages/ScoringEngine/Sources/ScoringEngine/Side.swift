@@ -5,7 +5,7 @@
 //  Created by BURAKHAN OZAY on 5.10.2026.
 //
 
-public enum Side: String, Sendable {
+public enum Side: String, Sendable, Codable {
     case a, b
     public var opponent: Side {
         self == .a ? .b : .a

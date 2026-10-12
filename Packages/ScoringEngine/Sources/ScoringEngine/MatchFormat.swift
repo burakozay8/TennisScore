@@ -5,8 +5,8 @@
 //  Created by BURAKHAN OZAY on 5.10.2026.
 //
 
-public struct MatchFormat: Sendable, Hashable {
-    public enum FinalSet: Sendable, Hashable {
+public struct MatchFormat: Sendable, Hashable, Codable {
+    public enum FinalSet: String, Sendable, Hashable, Codable {
         case regular
         case finalSetTiebreak
         case matchTiebreak
